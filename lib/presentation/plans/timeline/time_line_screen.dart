@@ -80,6 +80,7 @@ class TimeLineScreen extends StatelessWidget {
                       state.timeline.data.premiumMealsRemaining,
                       addonSubscriptions,
                       premiumSummaries,
+                      state.timeline.data.mealBalance,
                     ),
                     Gap(AppSize.s16.h),
                     _buildStatusLegend(),
@@ -101,6 +102,7 @@ class TimeLineScreen extends StatelessWidget {
     int premiumMealsRemaining,
     List<AddonSubscriptionModel> addonSubscriptions,
     List<PremiumSummaryModel> premiumSummaries,
+    MealBalanceModel? mealBalance,
   ) {
     final List<Widget> widgets = [];
     String? lastMonth;
@@ -127,6 +129,7 @@ class TimeLineScreen extends StatelessWidget {
             premiumMealsRemaining,
             addonSubscriptions,
             premiumSummaries,
+            mealBalance,
           ),
         ),
       );
@@ -178,6 +181,7 @@ class TimeLineScreen extends StatelessWidget {
     int premiumMealsRemaining,
     List<AddonSubscriptionModel> addonSubscriptions,
     List<PremiumSummaryModel> premiumSummaries,
+    MealBalanceModel? mealBalance,
   ) {
     final bool isReadOnly = _isReadOnlyDay(day);
     Color color;
@@ -280,10 +284,7 @@ class TimeLineScreen extends StatelessWidget {
               initialDayIndex: index,
               premiumMealsRemaining: premiumMealsRemaining,
               subscriptionId: subscriptionId,
-              mealBalance: (context.read<TimelineBloc>().state as TimelineLoaded)
-                  .timeline
-                  .data
-                  .mealBalance,
+              mealBalance: mealBalance,
               readOnly: isReadOnly,
             ),
           ),

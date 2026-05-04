@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
@@ -370,27 +371,44 @@ class _MealPlannerBody extends StatelessWidget {
                   ),
                 ),
               ),
-            if (!state.canAddMoreMeals &&
-                !state.dailyMealLimitEnforced &&
-                state.maxMeals >= state.displayMaxConsumableMealsNow &&
-                !isSelectedDayReadOnly)
+            // Debug info and reason why adding is disabled
+            if (!state.canAddMoreMeals && !isSelectedDayReadOnly)
               SliverPadding(
                 padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
                 sliver: SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.only(bottom: AppSize.s24.h),
                     child: Center(
-                      child: Text(
-                        Strings.cannotConsumeNow.tr(), // Or a custom string like "Max meals for today reached"
-                        style: getRegularTextStyle(
-                          color: ColorManager.textSecondary,
-                          fontSize: FontSizeManager.s12.sp,
-                        ),
+                      child: Column(
+                        children: [
+                          Text(
+                            state.maxMeals >= state.displayMaxConsumableMealsNow
+                                ? (state.mealBalance != null
+                                    ? Strings.maxMealsReached.tr()
+                                    : Strings.dailyLimitEnforced.tr())
+                                : Strings.cannotConsumeNow.tr(),
+                            style: getRegularTextStyle(
+                              color: ColorManager.textSecondary,
+                              fontSize: FontSizeManager.s12.sp,
+                            ),
+                          ),
+                          if (kDebugMode) ...[
+                            Gap(4.h),
+                            Text(
+                              "DEBUG: ${state.canAddMoreMealsReason} (Balance: ${state.mealBalance?.remainingMeals}, Max: ${state.displayMaxConsumableMealsNow}, Slots: ${state.maxMeals})",
+                              style: getRegularTextStyle(
+                                color: ColorManager.brandAccent,
+                                fontSize: FontSizeManager.s10.sp,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
+
           ],
         ),
         MealPlannerNotificationBanner(state: state),

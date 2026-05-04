@@ -387,7 +387,7 @@ final class MealPlannerLoaded extends MealPlannerState {
       return mealBalance!.maxConsumableMealsNow!;
     }
     // Fallback to initial required meals if mealBalance is missing
-    return selectedTimelineDay.requiredMeals;
+    return initialRequiredMeals;
   }
 
   bool get canAddMoreMeals {
@@ -395,14 +395,33 @@ final class MealPlannerLoaded extends MealPlannerState {
     if (mealBalance != null) {
       if (mealBalance?.canConsumeNow == false) return false;
       if (mealBalance?.dailyMealLimitEnforced == true) return false;
+      // Also ensure we have remaining meals globally if available
+      if (mealBalance?.remainingMeals != null && mealBalance!.remainingMeals! <= 0) {
+        return false;
+      }
     }
 
     return maxMeals < displayMaxConsumableMealsNow;
   }
 
-  bool get dailyMealLimitEnforced => mealBalance?.dailyMealLimitEnforced ?? true;
+  String? get canAddMoreMealsReason {
+    if (!isSelectedDayEditable) return "DAY_NOT_EDITABLE";
+    if (mealBalance != null) {
+      if (mealBalance?.canConsumeNow == false) return "CANNOT_CONSUME_NOW";
+      if (mealBalance?.dailyMealLimitEnforced == true) return "DAILY_LIMIT_ENFORCED";
+      if (mealBalance?.remainingMeals != null && mealBalance!.remainingMeals! <= 0) {
+        return "NO_REMAINING_MEALS";
+      }
+    }
+    if (maxMeals >= displayMaxConsumableMealsNow) return "MAX_MEALS_REACHED";
+    return null;
+  }
+
+  bool get dailyMealLimitEnforced =>
+      mealBalance?.dailyMealLimitEnforced ?? true;
 
   int get initialRequiredMeals => selectedTimelineDay.requiredMeals;
+
 
   bool get isSelectedDayEditable {
     if (selectedTimelineDay.isHistoricalOnly) {

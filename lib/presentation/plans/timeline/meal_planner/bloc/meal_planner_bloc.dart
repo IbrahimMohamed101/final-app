@@ -9,6 +9,7 @@ import 'package:basic_diet/domain/usecase/confirm_day_selection_usecase.dart';
 import 'package:basic_diet/domain/usecase/create_unified_day_payment_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_meal_planner_menu_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_subscription_day_usecase.dart';
+import 'package:flutter/foundation.dart';
 import 'package:basic_diet/domain/usecase/save_day_selection_usecase.dart';
 import 'package:basic_diet/domain/usecase/validate_day_selection_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_unified_day_payment_usecase.dart';
@@ -52,7 +53,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     required this.premiumSummaries,
     required this.initialDayIndex,
     int? premiumMealsRemaining,
-    MealBalanceModel? mealBalance,
+    this.mealBalance,
     String? subscriptionId,
   })  : _getMealPlannerMenuUseCase = getMealPlannerMenuUseCase,
         _getSubscriptionDayUseCase = getSubscriptionDayUseCase,
@@ -63,7 +64,6 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
         _confirmDaySelectionUseCase = confirmDaySelectionUseCase,
         premiumMealsRemaining = premiumMealsRemaining ?? 0,
         subscriptionId = subscriptionId ?? '',
-        this.mealBalance = mealBalance,
         super(
           MealPlannerLoaded(
             timelineDays: initialTimelineDays,
@@ -141,7 +141,16 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       savedAddOnIdsByDay[dayIndex] = const [];
     }
 
+    debugPrint(
+      'MealPlannerBloc: Initialized with mealBalance: '
+      'canConsumeNow=${mealBalance?.canConsumeNow}, '
+      'limitEnforced=${mealBalance?.dailyMealLimitEnforced}, '
+      'maxConsumable=${mealBalance?.maxConsumableMealsNow}, '
+      'remaining=${mealBalance?.remainingMeals}',
+    );
+
     final initialState = MealPlannerLoaded(
+
       timelineDays: initialTimelineDays,
       menu: menu,
       addOnsCatalog: menu.addons,

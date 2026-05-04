@@ -142,7 +142,10 @@
     "mealBalanceMaxNow": "Available Limit Now:",
     "dailyMealsDefaultNote": "Daily meal count is a planning default, not a hard daily limit.",
     "cannotConsumeNow": "Meals cannot be consumed at this time.",
+    "maxMealsReached": "Max allowable meals for today reached.",
+    "dailyLimitEnforced": "Daily meal limit reached.",
     "mealBalancePolicyNote": "Note: Plan based on total meal balance policy.",
+
     "delivery": "Delivery",
     "total": "Total",
     "confirm": "Confirm",
