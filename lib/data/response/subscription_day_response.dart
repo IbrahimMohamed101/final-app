@@ -90,6 +90,9 @@ class SubscriptionDayData {
   @JsonKey(name: 'lockedMessage')
   final String? lockedMessage;
 
+  @JsonKey(name: 'mealBalance')
+  final MealBalanceResponse? mealBalance;
+
   SubscriptionDayData(
     this.date,
     this.status,
@@ -109,7 +112,9 @@ class SubscriptionDayData {
     this.fulfillmentSummary,
     this.lockedReason,
     this.lockedMessage,
+    this.mealBalance,
   );
+
 
   factory SubscriptionDayData.fromJson(Map<String, dynamic> json) =>
       _$SubscriptionDayDataFromJson(json);

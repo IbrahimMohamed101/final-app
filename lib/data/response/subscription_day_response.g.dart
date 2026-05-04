@@ -72,6 +72,11 @@ SubscriptionDayData _$SubscriptionDayDataFromJson(Map<String, dynamic> json) =>
           ),
       json['lockedReason'] as String?,
       json['lockedMessage'] as String?,
+      json['mealBalance'] == null
+          ? null
+          : MealBalanceResponse.fromJson(
+            json['mealBalance'] as Map<String, dynamic>,
+          ),
     );
 
 Map<String, dynamic> _$SubscriptionDayDataToJson(
@@ -95,6 +100,7 @@ Map<String, dynamic> _$SubscriptionDayDataToJson(
   'fulfillmentSummary': instance.fulfillmentSummary,
   'lockedReason': instance.lockedReason,
   'lockedMessage': instance.lockedMessage,
+  'mealBalance': instance.mealBalance,
 };
 
 PlanningResponse _$PlanningResponseFromJson(Map<String, dynamic> json) =>

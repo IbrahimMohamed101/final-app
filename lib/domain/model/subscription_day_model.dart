@@ -19,6 +19,7 @@ class SubscriptionDayModel {
   final FulfillmentSummaryModel? fulfillmentSummary;
   final String lockedReason;
   final String lockedMessage;
+  final MealBalanceModel? mealBalance;
 
   SubscriptionDayModel({
     required this.date,
@@ -38,7 +39,9 @@ class SubscriptionDayModel {
     this.fulfillmentSummary,
     this.lockedReason = '',
     this.lockedMessage = '',
+    this.mealBalance,
   });
+
 }
 
 class AddonSelectionModel {

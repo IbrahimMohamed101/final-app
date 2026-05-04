@@ -941,8 +941,10 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       )..[selectedIndex] = updatedDay,
       premiumMealsPendingPayment:
           updatedDay.paymentRequirement?.premiumPendingPaymentCount ?? 0,
+      mealBalance: updatedDay.mealBalance ?? state.mealBalance,
       clearPaymentError: true,
       clearPendingAddonPrompt: true,
+
     );
   }
 

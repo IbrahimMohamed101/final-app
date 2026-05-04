@@ -29,7 +29,9 @@ extension SubscriptionDayResponseMapper on SubscriptionDayResponse {
       fulfillmentSummary: data?.fulfillmentSummary?.toDomain(),
       lockedReason: data?.lockedReason ?? '',
       lockedMessage: data?.lockedMessage ?? '',
+      mealBalance: data?.mealBalance?.toDomain(),
     );
+
   }
 }
 
